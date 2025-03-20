@@ -75,6 +75,8 @@ const inputDistance = document.querySelector('.form__input--distance');
 const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
+const deleteAll = document.querySelector('.delete-all');
+const deleteButtons = document.querySelector('.delete');
 
 class App {
   #map;
@@ -93,6 +95,7 @@ class App {
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField);
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
+    deleteAll.addEventListener('click', this.reset.bind(this));
   }
 
   _getPosition() {
@@ -135,8 +138,11 @@ class App {
 
   _hideForm() {
     // Empty inputs
-    inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value =
-      '';
+    inputDistance.value =
+      inputDuration.value =
+      inputCadence.value =
+      inputElevation.value =
+        '';
 
     form.style.display = 'none';
     form.classList.add('hidden');
@@ -229,7 +235,9 @@ class App {
   _renderWorkout(workout) {
     let html = `
       <li class="workout workout--${workout.type}" data-id="${workout.id}">
-        <h2 class="workout__title">${workout.description}</h2>
+        <h2 class="workout__title">${workout.description}<button id="btn${
+      workout.id
+    } class="delete">X</button></h2>
         <div class="workout__details">
           <span class="workout__icon">${
             workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'
@@ -296,8 +304,8 @@ class App {
       },
     });
 
-    // using the public interface
-    // workout.click();
+    const cl = document.getElementById(`btn${workout.id}`);
+    console.log(`aa ${cl}`);
   }
 
   _setLocalStorage() {

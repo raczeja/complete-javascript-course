@@ -85,9 +85,15 @@ a:visited {
 }
 
 .workout__title {
+  display: flex;
+  justify-content: space-between;
   font-size: 1.7rem;
   font-weight: 600;
   grid-column: 1 / -1;
+}
+
+.delete {
+  background-color: grey;
 }
 
 .workout__details {
