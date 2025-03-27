@@ -1,9 +1,9 @@
 'use strict';
 
 class Workout {
+  clicks = 0;
   date = new Date();
   id = (Date.now() + '').slice(-10);
-  clicks = 0;
 
   constructor(coords, distance, duration) {
     // this.date = ...
@@ -252,7 +252,7 @@ class App {
         </div>
     `;
 
-    if (workout.type === 'running')
+    if (workout.type === 'running') {
       html += `
         <div class="workout__details">
           <span class="workout__icon">⚡️</span>
@@ -266,8 +266,8 @@ class App {
         </div>
       </li>
       `;
-
-    if (workout.type === 'cycling')
+    }
+    if (workout.type === 'cycling') {
       html += `
         <div class="workout__details">
           <span class="workout__icon">⚡️</span>
@@ -281,7 +281,7 @@ class App {
         </div>
       </li>
       `;
-
+    }
     form.insertAdjacentHTML('afterend', html);
   }
 
