@@ -1,4 +1,4 @@
-var budget = [
+const budget = [
   { value: 250, description: 'Sold old TV 📺', user: 'jonas' },
   { value: -45, description: 'Groceries 🥑', user: 'jonas' },
   { value: 3500, description: 'Monthly salary 👩‍💻', user: 'jonas' },
@@ -9,36 +9,32 @@ var budget = [
   { value: -1800, description: 'New Laptop 💻', user: 'jonas' },
 ];
 
-var limits = {
+const spendingLimits = {
   jonas: 1500,
   matilda: 100,
 };
 
-var add = function (value, description, user) {
-  if (!user) user = 'jonas';
+const addExpanse = function (value, description, user = 'jonas') {
   user = user.toLowerCase();
 
-  var lim;
-  if (limits[user]) {
-    lim = limits[user];
-  } else {
-    lim = 0;
-  }
+  // const limit = spendingLimits[user] ? spendingLimits[user] : 0;
 
-  if (value <= lim) {
-    budget.push({ value: -value, description: description, user: user });
+  const limit = spendingLimits?.[user] ?? 0; // Optional chaining
+
+  if (value <= limit) {
+    budget.push({ value: -value, description, user });
   }
 };
-add(10, 'Pizza 🍕');
-add(100, 'Going to movies 🍿', 'Matilda');
-add(200, 'Stuff', 'Jay');
+addExpanse(10, 'Pizza 🍕');
+addExpanse(100, 'Going to movies 🍿', 'Matilda');
+addExpanse(200, 'Stuff', 'Jay');
 console.log(budget);
 
-var check = function () {
-  for (var el of budget) {
-    var lim;
-    if (limits[el.user]) {
-      lim = limits[el.user];
+const check = function () {
+  for (const el of budget) {
+    let lim;
+    if (spendingLimits[el.user]) {
+      lim = spendingLimits[el.user];
     } else {
       lim = 0;
     }
@@ -52,13 +48,15 @@ check();
 
 console.log(budget);
 
-var bigExpenses = function (limit) {
-  var output = '';
-  for (var el of budget) {
-    if (el.value <= -limit) {
-      output += el.description.slice(-2) + ' / '; // Emojis are 2 chars
-    }
-  }
-  output = output.slice(0, -2); // Remove last '/ '
+const bigExpenses = function (limit) {
+  const output = '';
+  // for (const el of budget) {
+  //   if (el.value <= -limit) {
+  //     output += el.description.slice(-2) + ' / '; // Emojis are 2 chars
+  //   }
+  // }
+  // output = output.slice(0, -2); // Remove last '/ '
   console.log(output);
 };
+
+bigExpenses(1000);
