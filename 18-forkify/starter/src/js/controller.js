@@ -23,6 +23,9 @@ const controlRecipes = async function () {
     if (!id) return;
     recipeView.renderSpinner();
 
+    // 0) Update results view to mark selected search result
+    resultsView.update(model.getSearchResultsPage());
+
     // 2) Loading recipe
     await model.loadRecipe(id);
 
@@ -32,6 +35,14 @@ const controlRecipes = async function () {
     recipeView.renderError();
     console.error(err);
   }
+};
+
+const controlServings = function (newServings) {
+  // Update the recipe servings (in state)
+  model.updateServings(newServings);
+
+  // Update the recipe view
+  recipeView.update(model.state.recipe);
 };
 
 const controlSearchResults = async function () {
@@ -51,6 +62,14 @@ const controlSearchResults = async function () {
   }
 };
 
+const controlAddBookmark = function () {
+  if (!model.state.recipe.bookmarked)
+    model.addBookmark(model.state.recipe); // Add bookmark
+  else if (model.state.recipe.bookmarked)
+    model.deleteBookmark(model.state.recipe.id); // Delete bookmark
+  recipeView.update(model.state.recipe); // Update recipe view
+};
+
 const controlPagination = function (goToPage) {
   console.log(goToPage); // log the page number
   resultsView.render(model.getSearchResultsPage(goToPage));
@@ -59,7 +78,10 @@ const controlPagination = function (goToPage) {
 
 const init = function () {
   recipeView.addHandlerRender(controlRecipes); // add the event listener to the recipe view
+  recipeView.addHandlerUpdateServings(controlServings); // call the controlServings function
+  recipeView.addHandlerAddBookmark(controlAddBookmark); // add the event listener to the recipe view
   searchView.addHandlerSearch(controlSearchResults);
+
   paginationView.addHandlerClick(controlPagination); // add the event listener to the pagination view
 };
 

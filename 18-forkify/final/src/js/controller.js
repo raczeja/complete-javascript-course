@@ -77,19 +77,14 @@ const controlServings = function (newServings) {
 };
 
 const controlAddBookmark = function () {
-  // 1) Add/remove bookmark
-  if (!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe);
-  else model.deleteBookmark(model.state.recipe.id);
-
-  // 2) Update recipe view
-  recipeView.update(model.state.recipe);
-
-  // 3) Render bookmarks
-  bookmarksView.render(model.state.bookmarks);
+  if (!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe); // Add bookmark
+  if (model.state.recipe.bookmarked) model.deleteBookmark(model.state.recipe); // Delete bookmark
+  recipeView.update(model.state.recipe); // Update recipe view
 };
 
 const controlBookmarks = function () {
   bookmarksView.render(model.state.bookmarks);
+  console.log(model.state.bookmarks);
 };
 
 const controlAddRecipe = async function (newRecipe) {
